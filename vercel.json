@@ -1,11 +1,19 @@
 {
   "version": 2,
-  "name": "solagent-pay",
-  "builds": [
-    { "src": "index.html", "use": "@vercel/static" },
-    { "src": "frontend/**", "use": "@vercel/static" }
-  ],
+  "functions": {
+    "api/execute.js": {
+      "memory": 256,
+      "maxDuration": 30
+    }
+  },
   "routes": [
-    { "src": "/(.*)", "dest": "/index.html" }
+    {
+      "src": "/api/(.*)",
+      "dest": "/api/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
+    }
   ]
 }
