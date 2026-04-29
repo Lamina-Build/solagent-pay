@@ -130,8 +130,11 @@ async function confirmPayment() {
 
   const txHash = generateTxHash();
 
-  balance    -= pendingPayment.agent.price;
-  totalPaid  += pendingPayment.agent.price;
+  // Save reference before closeModal() clears pendingPayment
+  const currentPayment = { ...pendingPayment };
+
+  balance    -= currentPayment.agent.price;
+  totalPaid  += currentPayment.agent.price;
   totalTasks += 1;
 
   updateBalanceDisplay();
@@ -139,27 +142,26 @@ async function confirmPayment() {
   document.getElementById('statTasks').textContent = totalTasks;
 
   closeModal();
-  addUserMessage(pendingPayment.instruction);
-  addTxItem(pendingPayment.agent, txHash, pendingPayment.agent.price);
+  addUserMessage(currentPayment.instruction);
+  addTxItem(currentPayment.agent, txHash, currentPayment.agent.price);
 
   document.getElementById('agentStatusText').textContent = 'executing task...';
   const typingId = addTypingIndicator();
 
   // Call secure Vercel proxy
-  const result = await callAPI(pendingPayment.agent.id, pendingPayment.instruction);
+  const result = await callAPI(currentPayment.agent.id, currentPayment.instruction);
 
   removeTypingIndicator(typingId);
   document.getElementById('agentStatusText').textContent = 'online · awaiting instruction';
 
   addAgentMessage(
-    `✅ <strong>Task complete!</strong> Payment of <strong>${pendingPayment.agent.price.toFixed(2)} USDC</strong> received ` +
+    `✅ <strong>Task complete!</strong> Payment of <strong>${currentPayment.agent.price.toFixed(2)} USDC</strong> received ` +
     `(tx: <code style="font-family:'Space Mono',monospace;font-size:0.75rem;color:var(--accent2)">${txHash.slice(0,12)}...</code>)<br><br>${result}`
   );
   showToast('Task complete!', `tx: ${txHash.slice(0,16)}...`);
 
   document.getElementById('taskInput').value = '';
   btn.innerHTML = '🔐 Pay & Execute'; btn.disabled = false;
-  pendingPayment = null;
 }
 
 // ── API Call (secure proxy) ───────────────────────────────────────────────────
