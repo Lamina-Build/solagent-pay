@@ -1,10 +1,11 @@
 # ⚡ SolAgent Pay
 
-> **Colosseum Global Hackathon 2026** — Built by [Lamina Build](https://github.com/TomazMalfoy)
+> **Colosseum Global Hackathon 2026** — Built by [Lamina Build](https://github.com/Lamina-Build)
 
 **Hire specialized AI agents. Pay per task in USDC on Solana. Settle in under 1 second.**
 
-🔗 **Live Demo:** https://solagent-pay.vercel.app
+🔗 **Live Demo:** https://solagent-pay.vercel.app  
+🐙 **GitHub:** https://github.com/Lamina-Build/solagent-pay
 
 ---
 
@@ -38,8 +39,33 @@ User → Connect Phantom Wallet
      → Transaction confirmed < 1s
      → Agent executes via Claude API
      → Result delivered in chat
-     → TX recorded in history
+     → TX recorded on-chain history
 ```
+
+---
+
+## 📁 Project Structure
+
+```
+solagent-pay/
+├── index.html              # Main app entry point
+├── frontend/
+│   ├── css/
+│   │   └── style.css       # All styles
+│   └── js/
+│       └── app.js          # All frontend logic
+├── backend/
+│   ├── main.py             # FastAPI backend (Python)
+│   └── requirements.txt    # Python dependencies
+├── docs/
+│   └── architecture.md     # Technical deep-dive
+├── vercel.json             # Vercel deployment config
+├── .env.example            # Environment variables template
+├── .gitignore
+└── README.md
+```
+
+---
 
 ## 🛠️ Tech Stack
 
@@ -50,9 +76,9 @@ User → Connect Phantom Wallet
 | Payment Protocol | x402 |
 | Wallet | Phantom |
 | AI | Claude (Anthropic) |
-| Frontend | Vanilla HTML/CSS/JS |
-| Deploy | Vercel |
-| Future | Anchor (Rust) smart contracts |
+| Frontend | HTML / CSS / JavaScript |
+| Backend | Python (FastAPI) |
+| Deploy | Vercel (frontend) |
 
 ---
 
@@ -71,16 +97,37 @@ User → Connect Phantom Wallet
 
 ## 🚀 Run Locally
 
-No dependencies needed — just open the file:
-
+### Frontend only (no backend needed for demo)
 ```bash
-git clone https://github.com/TomazMalfoy/solagent-pay.git
+git clone https://github.com/Lamina-Build/solagent-pay.git
 cd solagent-pay
 open index.html
-
-# Or with a local server:
-npx serve .
+# or: npx serve .
 ```
+
+### With Python backend
+```bash
+cd backend
+pip install -r requirements.txt
+cp ../.env.example ../.env
+# Add your ANTHROPIC_API_KEY to .env
+uvicorn main:app --reload
+# API available at http://localhost:8000
+# Docs at http://localhost:8000/docs
+```
+
+---
+
+## 🔌 Backend API Endpoints
+
+| Method | Endpoint | Description |
+|---|---|---|
+| GET | `/` | API info |
+| GET | `/agents` | List all agents |
+| GET | `/agents/{id}` | Agent details |
+| POST | `/execute` | Execute a task (pay + run) |
+| GET | `/transactions` | Transaction history |
+| GET | `/stats` | Platform statistics |
 
 ---
 
@@ -92,6 +139,7 @@ npx serve .
 - [x] 6 specialized AI agents
 - [x] Transaction history
 - [x] Claude API integration
+- [x] Python FastAPI backend
 - [x] Vercel deploy
 
 ### V1 — Post Hackathon
@@ -116,10 +164,11 @@ npx serve .
 
 ---
 
-## 👥 Team
+## 👥 Team — Lamina Build
 
-**Lamina Build** — Colosseum Global Hackathon 2026
-- [@TomazMalfoy](https://github.com/TomazMalfoy)
+- [Tomaz Macedo](https://github.com/TomazMalfoy) — [@TomazMalfoy](https://github.com/TomazMalfoy)
+- [Wesley Mendes](https://github.com/WesGtoX) — [@WesGtoX](https://github.com/WesGtoX)
+- [Alex Lima](https://github.com/AlexLimaTKZ) — [@AlexLimaTKZ](https://github.com/AlexLimaTKZ)
 
 ---
 
